@@ -1,7 +1,7 @@
-Summary:	Russian Fedora Remix firstboot configure scripts
+Summary:	RERemix firstboot configure scripts
 Name:		reremix-config
 Version:	6.1
-Release:	1%{?dist}.R
+Release:	1%{?dist}.1.R
 Epoch:		3
 
 License:	GPLv2
@@ -16,7 +16,7 @@ Requires(post):	chkconfig
 
 
 %description
-These are some scripts to configure Russian Fedora Remix at
+These are some scripts to configure RERemix at
 the first boot.
 
 Also package contains some configuration files for swhitching
@@ -74,6 +74,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Oct  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1-1.1.R
+- trivial fix type
+
 * Mon Jul 18 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1-1.R
 - update to 6.1
 

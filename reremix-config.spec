@@ -1,7 +1,7 @@
 Summary:	RERemix firstboot configure scripts
 Name:		reremix-config
 Version:	6.1
-Release:	1%{?dist}.1.R
+Release:	1.el6.1.R
 Epoch:		3
 
 License:	GPLv2
@@ -74,7 +74,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Oct  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1-1.1.R
+* Tue Oct  4 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1-1.el6.1.R
 - trivial fix type
 
 * Mon Jul 18 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1-1.R

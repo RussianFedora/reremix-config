@@ -1,0 +1,83 @@
+diff -urN reremix-config-6.1/Changelog reremix-config-6.1.new/Changelog
+--- reremix-config-6.1/Changelog	2011-03-30 17:33:06.000000000 +0400
++++ reremix-config-6.1.new/Changelog	2011-10-28 18:15:32.427692786 +0400
+@@ -1,4 +1,8 @@
+ Changelog:
++* Fri Oct 28 2011 Arkady L. Shane <ashejn@russianfedora.ru> - 6.1.1
++- drop GCONF commands as they are in firstboot
++- fix linux name
++
+ * Wed Mar 30 2011 Arkady L. Shane <ashejn@yandex-team.ru> - 6.1
+ - drop buttons_have_icons item
+ - fix menus_have_icons item
+diff -urN reremix-config-6.1/reremixconf.init reremix-config-6.1.new/reremixconf.init
+--- reremix-config-6.1/reremixconf.init	2011-03-30 17:30:56.000000000 +0400
++++ reremix-config-6.1.new/reremixconf.init	2011-10-28 18:15:32.427692786 +0400
+@@ -1,15 +1,15 @@
+ #!/bin/bash
+ ## BEGIN INIT INFO
+-# Provides: zaryaconf
++# Provides: reremixconf
+ # Default-Start: 3 5
+ # Default-Stop: 0 1 2 4 6
+ # Required-Start:
+-# Short-Description: Starts the zaryaconf configuration script
++# Short-Description: Starts the reremixconf configuration script
+ # Description: Applies some Russian Fedora Remix configs at the first boot.
+ ## END INIT INFO
+ 
+ #
+-# zaryaconf: Starts the zaryaconf script if it hasn't been run before
++# reremixconf: Starts the reremixconf script if it hasn't been run before
+ #
+ # chkconfig: 35 00 95
+ #
+@@ -18,7 +18,7 @@
+ # Source function library.
+ . /etc/init.d/functions
+ 
+-prog="ZOS Zarya configure"
++prog="RERemix Linux configure"
+ 
+ case "$1" in
+     start)
+@@ -26,17 +26,17 @@
+ 
+ 	# gconf rules
+ 
+-        if [ -x /usr/bin/gconftool-2 ]; then
+-            GC_COMMAND="/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults"
+-	    $GC_COMMAND -s -t bool /apps/nautilus/preferences/always_use_browser true > /dev/null
+-	    $GC_COMMAND -s -t bool /desktop/gnome/interface/menus_have_icons true > /dev/null
+-	    $GC_COMMAND -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false > /dev/null
+-	    $GC_COMMAND -s -t list --list-type=string /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,WINDOWS-1251,KOI8R,ISO-8859-5]" > /dev/null
+-	    $GC_COMMAND -s -t int /apps/eog/ui/image_collection_position 3 > /dev/null
+-	fi
++        #if [ -x /usr/bin/gconftool-2 ]; then
++        #    GC_COMMAND="/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults"
++	#    $GC_COMMAND -s -t bool /apps/nautilus/preferences/always_use_browser true > /dev/null
++	#    $GC_COMMAND -s -t bool /desktop/gnome/interface/menus_have_icons true > /dev/null
++	#    $GC_COMMAND -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false > /dev/null
++	#    $GC_COMMAND -s -t list --list-type=string /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,WINDOWS-1251,KOI8R,ISO-8859-5]" > /dev/null
++	#    $GC_COMMAND -s -t int /apps/eog/ui/image_collection_position 3 > /dev/null
++	#fi
+ 
+         # enable ctrl-alt-backspace
+-        grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard
++        #grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard
+ 
+ 
+ 	# adding keyboard switchers
+@@ -57,10 +57,10 @@
+ 
+         RETVAL=$?
+ 
+-        # If zaryaconf succeeded, chkconfig it off.
++        # If reremixconf succeeded, chkconfig it off.
+         if [ "$RETVAL" -eq 0 ]; then
+             action "" /bin/true
+-            /sbin/chkconfig zaryaconf off
++            /sbin/chkconfig reremixconf off
+         else
+             action "" /bin/false
+         fi

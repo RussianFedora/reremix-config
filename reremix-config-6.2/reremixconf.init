@@ -1,15 +1,15 @@
 #!/bin/bash
 ## BEGIN INIT INFO
-# Provides: zaryaconf
+# Provides: reremixconf
 # Default-Start: 3 5
 # Default-Stop: 0 1 2 4 6
 # Required-Start:
-# Short-Description: Starts the zaryaconf configuration script
+# Short-Description: Starts the reremixconf configuration script
 # Description: Applies some Russian Fedora Remix configs at the first boot.
 ## END INIT INFO
 
 #
-# zaryaconf: Starts the zaryaconf script if it hasn't been run before
+# reremixconf: Starts the reremixconf script if it hasn't been run before
 #
 # chkconfig: 35 00 95
 #
@@ -18,7 +18,7 @@
 # Source function library.
 . /etc/init.d/functions
 
-prog="ZOS Zarya configure"
+prog="RERemix Linux configure"
 
 case "$1" in
     start)
@@ -63,10 +63,10 @@ case "$1" in
 
         RETVAL=$?
 
-        # If zaryaconf succeeded, chkconfig it off.
+        # If reremixconf succeeded, chkconfig it off.
         if [ "$RETVAL" -eq 0 ]; then
             action "" /bin/true
-            /sbin/chkconfig zaryaconf off
+            /sbin/chkconfig reremixconf off
         else
             action "" /bin/false
         fi

@@ -1,0 +1,85 @@
+#!/bin/bash
+## BEGIN INIT INFO
+# Provides: zaryaconf
+# Default-Start: 3 5
+# Default-Stop: 0 1 2 4 6
+# Required-Start:
+# Short-Description: Starts the zaryaconf configuration script
+# Description: Applies some Russian Fedora Remix configs at the first boot.
+## END INIT INFO
+
+#
+# zaryaconf: Starts the zaryaconf script if it hasn't been run before
+#
+# chkconfig: 35 00 95
+#
+# description: Applies some Russian Fedora Remix configs at the first boot.
+
+# Source function library.
+. /etc/init.d/functions
+
+prog="ZOS Zarya configure"
+
+case "$1" in
+    start)
+	echo -n $"Starting $prog: "
+
+	# gconf rules
+
+        if [ -x /usr/bin/gconftool-2 ]; then
+            GC_COMMAND="/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults"
+	    $GC_COMMAND -s -t bool /apps/nautilus/preferences/always_use_browser true > /dev/null
+	    $GC_COMMAND -s -t bool /desktop/gnome/interface/menus_have_icons true > /dev/null
+	    $GC_COMMAND -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false > /dev/null
+	    $GC_COMMAND -s -t list --list-type=string /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,WINDOWS-1251,KOI8R,ISO-8859-5]" > /dev/null
+	    $GC_COMMAND -s -t int /apps/eog/ui/image_collection_position 3 > /dev/null
+	fi
+
+        # enable ctrl-alt-backspace
+        grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard
+
+        # change kdm locale to russian
+        if [ -f /etc/kde/kdm/kdmrc ]; then
+            if [ "\`echo \$LANG | awk -F_ '{print \$1}'\`" == "ru" ]; then
+                sed -i 's!#Language=de_DE!Language=ru_RU!' /etc/kde/kdm/kdmrc
+            fi
+        fi
+
+	# adding keyboard switchers
+	if [ -f /etc/sysconfig/keyboard ]; then
+	    . /etc/sysconfig/keyboard
+	    # GNOME
+	    LAYOUT_OPT=$(echo $OPTIONS | sed 's!grp:!grp\tgrp:!g;s!grp_led:!grp\tgrp_led:!g')
+
+	    if [ -d /etc/gconf/gconf.xml.defaults ]; then
+	        /usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults \
+	   	    -s -t list --list-type=string /desktop/gnome/peripherals/keyboard/kbd/layouts "[$LAYOUT]" > /dev/null
+		/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults \
+                    -s -t list --list-type=string /desktop/gnome/peripherals/keyboard/kbd/options "[$LAYOUT_OPT]" > /dev/null
+	    fi
+	fi
+
+	# end of rules
+
+        RETVAL=$?
+
+        # If zaryaconf succeeded, chkconfig it off.
+        if [ "$RETVAL" -eq 0 ]; then
+            action "" /bin/true
+            /sbin/chkconfig zaryaconf off
+        else
+            action "" /bin/false
+        fi
+
+        exit $RETVAL
+        ;;
+
+    stop)
+        exit 0
+        ;;
+
+    *)
+        echo $"Usage: $0 {start|stop}"
+        exit 3
+        ;;
+esac

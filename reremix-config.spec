@@ -1,14 +1,13 @@
 Summary:	RERemix firstboot configure scripts
 Name:		reremix-config
-Version:	6.1
-Release:	2%{?dist}.R
+Version:	6.2
+Release:	1%{?dist}.R
 Epoch:		3
 
 License:	GPLv2
 Group:		System Environment/Base
 URL:		http://fedoraproject.org
-Source:		http://download.rfremix.ru/storage/reremix-config/%{name}-%{version}.tar.bz2
-Patch0:		reremix-config-6.1-ugly.patch
+Source:		%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -26,7 +25,6 @@ keyboard layout in KDE, GNOME and others.
 
 %prep
 %setup -q
-%patch0 -p1 -b .ugly
 
 
 %build
@@ -76,6 +74,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 6.2-1.R
+- change kdm locale to russian
+
 * Fri Oct 28 2011 Arkady L. Shane <ashejn@russianfedora.ru> - 6.1-2.R
 - fix linux name
 - drop gconf rules

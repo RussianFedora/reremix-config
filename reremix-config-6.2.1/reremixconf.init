@@ -24,20 +24,6 @@ case "$1" in
     start)
 	echo -n $"Starting $prog: "
 
-	# gconf rules
-
-        if [ -x /usr/bin/gconftool-2 ]; then
-            GC_COMMAND="/usr/bin/gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults"
-	    $GC_COMMAND -s -t bool /apps/nautilus/preferences/always_use_browser true > /dev/null
-	    $GC_COMMAND -s -t bool /desktop/gnome/interface/menus_have_icons true > /dev/null
-	    $GC_COMMAND -s -t bool /apps/gnome-terminal/global/use_menu_accelerators false > /dev/null
-	    $GC_COMMAND -s -t list --list-type=string /apps/gedit-2/preferences/encodings/auto_detected "[UTF-8,CURRENT,WINDOWS-1251,KOI8R,ISO-8859-5]" > /dev/null
-	    $GC_COMMAND -s -t int /apps/eog/ui/image_collection_position 3 > /dev/null
-	fi
-
-        # enable ctrl-alt-backspace
-        grep 'terminate:ctrl_alt_bksp' /etc/sysconfig/keyboard > /dev/null || sed -i 's!OPTIONS=\"!OPTIONS=\"terminate:ctrl_alt_bksp,!g' /etc/sysconfig/keyboard
-
         # change kdm locale to russian
         if [ -f /etc/kde/kdm/kdmrc ]; then
             if [ "\`echo \$LANG | awk -F_ '{print \$1}'\`" == "ru" ]; then

@@ -1,7 +1,7 @@
 Summary:	RERemix firstboot configure scripts
 Name:		reremix-config
-Version:	6.2
-Release:	2%{?dist}.R
+Version:	6.2.1
+Release:	1%{?dist}.R
 Epoch:		3
 
 License:	GPLv2
@@ -74,6 +74,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Feb 15 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 6.2.1-1.R
+- drop duplicate entries
+
 * Fri Feb  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 6.2-2.R
 - fix typo
 

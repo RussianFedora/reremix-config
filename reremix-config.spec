@@ -1,6 +1,6 @@
 Summary:	RERemix firstboot configure scripts
 Name:		reremix-config
-Version:	6.2.1
+Version:	6.2.2
 Release:	1%{?dist}.R
 Epoch:		3
 
@@ -74,6 +74,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 17 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 6.2.2-1.R
+- fix kdm language hotfix
+
 * Wed Feb 15 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 6.2.1-1.R
 - drop duplicate entries
 
